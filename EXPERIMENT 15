@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int users, i, j, files[10];
+    char fname[10][10][50], search[50];
+    int userChoice, found = 0;
+
+    printf("Enter number of users: ");
+    scanf("%d", &users);
+
+    for(i = 0; i < users; i++) {
+        printf("Enter number of files for user %d: ", i + 1);
+        scanf("%d", &files[i]);
+
+        for(j = 0; j < files[i]; j++) {
+            printf("Enter file %d for user %d: ", j + 1, i + 1);
+            scanf("%s", fname[i][j]);
+        }
+    }
+
+    printf("\nDirectory Structure:\n");
+    for(i = 0; i < users; i++) {
+        printf("User %d:\n", i + 1);
+        for(j = 0; j < files[i]; j++) {
+            printf("  %s\n", fname[i][j]);
+        }
+    }
+
+    printf("\nEnter user number to search file: ");
+    scanf("%d", &userChoice);
+
+    printf("Enter file name to search: ");
+    scanf("%s", search);
+
+    for(j = 0; j < files[userChoice - 1]; j++) {
+        if(strcmp(fname[userChoice - 1][j], search) == 0) {
+            found = 1;
+            break;
+        }
+    }
+
+    if(found)
+        printf("File found under User %d\n", userChoice);
+    else
+        printf("File not found\n");
+
+    return 0;
+}
+
+INPUT:
+Enter number of users: 2
+
+Enter number of files for user 1: 2
+Enter file 1 for user 1: a.txt
+Enter file 2 for user 1: b.txt
+
+Enter number of files for user 2: 1
+Enter file 1 for user 2: c.txt
+
+Enter user number to search file: 1
+Enter file name to search: b.txt
+
+
+OUTPUT:
+Directory Structure:
+User 1:
+  a.txt
+  b.txt
+User 2:
+  c.txt
+
+File found under User 1
