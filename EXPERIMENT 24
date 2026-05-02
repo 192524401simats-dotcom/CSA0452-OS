@@ -1,0 +1,37 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd, n;
+    char writebuf[] = "Hello OS Lab";
+    char readbuf[50];
+
+    fd = open("/tmp/myfile.txt", O_CREAT | O_WRONLY | O_TRUNC, 0666);
+
+    if(fd == -1) {
+        perror("Error opening file for writing");
+        return 1;
+    }
+
+    write(fd, writebuf, sizeof(writebuf) - 1);
+    close(fd);
+
+    fd = open("/tmp/myfile.txt", O_RDONLY);
+
+    if(fd == -1) {
+        perror("Error opening file for reading");
+        return 1;
+    }
+
+    n = read(fd, readbuf, sizeof(readbuf) - 1);
+    readbuf[n] = '\0';
+
+    printf("File Content: %s\n", readbuf);
+
+    close(fd);
+    return 0;
+}
+
+OUTPUT:
+File Content: Hello OS Lab
