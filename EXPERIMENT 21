@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+int main() {
+    int blockSize[10], processSize[10], b_no, p_no, allocation[10], i, j;
+
+    for(i = 0; i < 10; i++) allocation[i] = -1;
+
+    printf("Enter number of blocks: ");
+    scanf("%d", &b_no);
+    printf("Enter size of each block: ");
+    for(i = 0; i < b_no; i++) scanf("%d", &blockSize[i]);
+
+    printf("Enter number of processes: ");
+    scanf("%d", &p_no);
+    printf("Enter size of each process: ");
+    for(i = 0; i < p_no; i++) scanf("%d", &processSize[i]);
+
+    for(i = 0; i < p_no; i++) {
+        int worstIdx = -1;
+        for(j = 0; j < b_no; j++) {
+            if(blockSize[j] >= processSize[i]) {
+                if(worstIdx == -1 || blockSize[worstIdx] < blockSize[j])
+                    worstIdx = j;
+            }
+        }
+        if(worstIdx != -1) {
+            allocation[i] = worstIdx;
+            blockSize[worstIdx] -= processSize[i];
+        }
+    }
+
+    printf("\nProcess No.\tProcess Size\tBlock no.\n");
+    for(i = 0; i < p_no; i++) {
+        printf(" %d \t\t %d \t\t", i + 1, processSize[i]);
+        if(allocation[i] != -1) printf("%d\n", allocation[i] + 1);
+        else printf("Not Allocated\n");
+    }
+    return 0;
+}
+
+INPUT:
+3 blocks (100, 500, 200)
+2 processes (150, 50)
+
+OUTPUT:
+ P1 -> Block 2, P2 -> Block 2
